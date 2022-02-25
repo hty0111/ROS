@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/hty/Desktop/ROS/catkin_ws/src/learning_tf/cmake-build-debug/devel/setup.sh
