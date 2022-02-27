@@ -1,9 +1,3 @@
-### 核心概念
-
-话题：发布 & 订阅
-
-服务：服务器 & 客户端
-
 ### 命令行工具
 
 ```shell
@@ -111,5 +105,22 @@ add_executable(${PROJECT_NAME}_node ${SRC_LISTS}.cpp)
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES})
 # 自定义消息或服务则需要添加依赖项
 add_dependencies(${PROFECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)	# 后者无需改动
+```
+
+### Launch文件
+
+```xml
+<launch>	<!-- 自动启动roscore -->
+    <include file="$(fine <file_name>)/.launch"/>	<!-- 包含其他launch文件 -->
+    <group ns="">
+        <remap from "" to ""/>		<!-- 重映射ROS计算图资源的命名 -->
+        <arg name="arg_name" default="arg_value"/>		<!-- launch文件内部的参数 -->
+		<node name="" pkg="package_name" name="node_name" type="executable_name" output="screen" ns="" args="$(arg arg_name)" respawn="挂掉是否重启" required="是否必须运行成功">
+        	<param name="" value=""/>	<!-- 设置参数 -->
+            <rosparam file="file.yaml" command="load" ns="params"/>	<!-- 加载文件中的多个参数 -->
+            <env name="" value=""/>
+        </node>
+    </group>
+</launch>
 ```
 
