@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="learning_tf" type="static_tf_broadcaster" name="static_tf_broadcaster"/>
+    <node pkg="learning_tf" type="static_tf_listener" name="static_tf_listener"/>
+</launch>

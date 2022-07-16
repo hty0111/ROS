@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(learning_tf)
+project(hello_world)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,8 +10,7 @@ project(learning_tf)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  tf
-  turtlesim
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,7 +70,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   std_msgs
 # )
 
 ################################################
@@ -105,8 +104,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES learning_tf
-#  CATKIN_DEPENDS roscpp rospy tf turtlesim
+#  LIBRARIES hello_world
+#  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -123,7 +122,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/learning_tf.cpp
+#   src/${PROJECT_NAME}/hello_world.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,7 +133,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/learning_tf_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/hello_world_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,17 +149,8 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-
-add_executable(turtle_tf_broadcaster src/turtle_tf_broadcaster.cpp)
-target_link_libraries(turtle_tf_broadcaster ${catkin_LIBRARIES})
-
-add_executable(turtle_tf_listener src/turtle_tf_listener.cpp)
-target_link_libraries(turtle_tf_listener ${catkin_LIBRARIES})
-
-add_executable(static_tf_broadcaster src/static_tf/static_tf_broadcaster.cpp)
-target_link_libraries(static_tf_broadcaster ${catkin_LIBRARIES})
-add_executable(static_tf_listener src/static_tf/static_tf_listener.cpp)
-target_link_libraries(static_tf_listener ${catkin_LIBRARIES})
+add_executable(hello_world src/main.cpp)
+target_link_libraries(hello_world ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -204,12 +194,17 @@ target_link_libraries(static_tf_listener ${catkin_LIBRARIES})
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
+catkin_install_python(PROGRAMS
+    scripts/main.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_learning_tf.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hello_world.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

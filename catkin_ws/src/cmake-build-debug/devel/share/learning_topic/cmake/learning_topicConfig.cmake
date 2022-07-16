@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(learning_topic_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT " " STREQUAL " ")
+if(NOT "/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/devel/include " STREQUAL " ")
   set(learning_topic_INCLUDE_DIRS "")
-  set(_include_dirs "")
+  set(_include_dirs "/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/devel/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/devel/lib;/home/hty/Desktop/ROS/catkin_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -177,7 +177,7 @@ foreach(library ${libraries})
   endif()
 endforeach()
 
-set(learning_topic_EXPORTED_TARGETS "")
+set(learning_topic_EXPORTED_TARGETS "learning_topic_generate_messages_cpp;learning_topic_generate_messages_eus;learning_topic_generate_messages_lisp;learning_topic_generate_messages_nodejs;learning_topic_generate_messages_py")
 # create dummy targets for exported code generation targets to make life of users easier
 foreach(t ${learning_topic_EXPORTED_TARGETS})
   if(NOT TARGET ${t})
@@ -185,7 +185,7 @@ foreach(t ${learning_topic_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "")
+set(depends "geometry_msgs;roscpp;rospy;std_msgs;turtlesim;message_runtime")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls
@@ -214,7 +214,7 @@ foreach(depend ${depends})
   list(APPEND learning_topic_EXPORTED_TARGETS ${${learning_topic_dep}_EXPORTED_TARGETS})
 endforeach()
 
-set(pkg_cfg_extras "")
+set(pkg_cfg_extras "learning_topic-msg-extras.cmake")
 foreach(extra ${pkg_cfg_extras})
   if(NOT IS_ABSOLUTE ${extra})
     set(extra ${learning_topic_DIR}/${extra})

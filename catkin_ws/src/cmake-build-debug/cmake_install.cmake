@@ -136,6 +136,10 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/gtest/cmake_install.cmake")
+  include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/hello_world/cmake_install.cmake")
+  include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/learning_parameter/cmake_install.cmake")
+  include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/learning_service/cmake_install.cmake")
+  include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/learning_tf/cmake_install.cmake")
   include("/home/hty/Desktop/ROS/catkin_ws/src/cmake-build-debug/learning_topic/cmake_install.cmake")
 
 endif()

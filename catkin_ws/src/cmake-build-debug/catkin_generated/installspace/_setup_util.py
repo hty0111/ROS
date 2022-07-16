@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
         if not args.local:
             # environment at generation time
-            CMAKE_PREFIX_PATH = r'/home/hty/Desktop/ROS/catkin_ws/devel;/opt/ros/melodic'.split(';')
+            CMAKE_PREFIX_PATH = r'/home/hty/Desktop/car/control/devel;/home/hty/Desktop/car/racecar_pid/devel;/home/hty/Desktop/car/racecar_ws/devel;/opt/ros/melodic;/home/hty/Applications/cmake-install;/home/hty/Applications/cmake-install'.split(';')
         else:
             # don't consider any other prefix path than this one
             CMAKE_PREFIX_PATH = []
