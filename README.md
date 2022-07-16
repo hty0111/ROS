@@ -1,19 +1,36 @@
 # B站 《古月21讲》
+
 2022.2.27
 
 ### 命令行工具
 
 ```shell
-rqt_graph	# 可视化节点
-rosnode list	# 列出所有节点
-rosnode info <node>		# 查看具体节点的信息
 rostopic list	# 列出所有话题
-rostopic pub -r 10 <topic_name> <msg_struct>	# 以10Hz频率发布
-rosmsg show <msg_struct>
+rostopic pub -r 10 <topic> <msg>	# 以10Hz频率发布
+rostopic echo <topic>
+rostopic echo -b <bag> -p <topic> > <file>.csv/.txt  
+
+rosmsg list
+rosmsg show <msg>
+
 rosservice list	# 列出所有服务
-rosservice call <service_name> <struct>	# 调用服务
+rosservice call <service> <srv>	# 调用服务
+rosservice info <service>
+
+rossrv list
+rossrv show <srv>
+
 rosbag record -a -O <file>	# 话题记录，全部保存+输出到文件
 rosbag play <file>.bag		# 话题复现
+
+roscd <pkg>		# 进入功能包
+rosls <pkg>		# 列出功能包下的文件
+rospack list	# 列出所有功能包
+rospack find <pkg>
+rosnode list	# 列出所有节点
+rosnode info <node>		# 查看具体节点的信息
+
+rqt_graph	# 可视化节点
 ```
 
 ### 工作空间与功能包
