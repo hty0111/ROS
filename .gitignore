@@ -1,5 +1,7 @@
-cmake-*
-idea
+cmake-build-debug
+.*
 build
 devel
+!.git
+!.gitignore
 

@@ -8,7 +8,7 @@
 rostopic list	# 列出所有话题
 rostopic pub -r 10 <topic> <msg>	# 以10Hz频率发布
 rostopic echo <topic>
-rostopic echo -b <bag> -p <topic> > <file>.csv/.txt  
+rostopic echo -b <bag> -p <topic> > <file>.csv/.txt
 
 rosmsg list
 rosmsg show <msg>
@@ -37,18 +37,19 @@ rqt_graph	# 可视化节点
 
 ```shell
 # 创建工作空间
-mkdir ~/catkin_ws/src; cd ~/catkin_ws/src; [catkin_init_workspace]
+mkdir catkin_ws/src; cd catkin_ws/src; [catkin_init_workspace]
 # 编译工作空间，生成 devel/ & build/
-cd ~/catkin_ws/; catkin_make
+cd catkin_ws/; catkin_make
 # 生成可执行文件 install/
 catkin_make install
 # 设置环境变量
-echo "source ***catkin_ws/devel/setup.bash" >> ~/.bashrc
+cd catkin_ws
+echo "source `pwd`/devel/setup.bash" >> ~/.bashrc
 # 查看环境变量
 echo $ROS_PACKAGE_PATH
 
 # 创建功能包，同一工作空间下不能存在同名功能包
-cd ~/catkin_ws/src; catkin_create_pkg <pkg> [dependencies]
+cd ~/catkin_ws/src; catkin_create_pkg <pkg> [dependencies]  # roscpp rospy std_msgs
 # 编译功能包
 cd ~/catkin_ws; catkin_make
 ```

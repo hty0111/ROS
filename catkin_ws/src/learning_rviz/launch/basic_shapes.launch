@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="learning_rviz" type="basic_shapes" name="basic_shapes" />
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find learning_rviz)/rviz/rviz.rviz" />
+</launch>
