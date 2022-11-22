@@ -1,6 +1,10 @@
-# B站 《古月21讲》
+# B站 《古月21讲》& Autolabor教程
 
-2022.2.27
+2022.2.27	2022.7	2022.11
+
+http://www.autolabor.com.cn/book/ROSTutorials/
+
+
 
 ### 命令行工具
 
@@ -143,5 +147,63 @@ add_dependencies(${PROFECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)	# �
         </node>
     </group>
 </launch>
+```
+
+### tf
+
+```shell
+rosrun tf tf_monitor <source_frame> <target_frame>	# 发布状态
+rosrun tf tf_echo <source_frame> <target_frame>	# 变换关系
+rosrun tf view_frames	# 显示整个tf树
+```
+
+### urdf & xacro
+
+```shell
+# 命令行
+check_urdf <file>	# 检查文件
+urdf_to_graphiz <file>	# 查看link和joint关系
+rosrun xacro xacro <file>.xacro > <file>.urdf	# xacro转urdf
+
+# launch文件
+<param name="robot_description" textfile="$(find package_name)/urdf/<file_name>.urdf" />
+<param name="robot_description" command="$(find xacro)/xacro $(find package_name)/urdf/<file_name>.xacro" />
+```
+
+### rviz
+
+```shell
+# 命令行
+rosrun rviz rviz
+
+# launch文件
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find package_name)/rviz/rviz.rviz" />
+<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />	# 关节状态发布节点  gui控制时抖动，去除这一行
+<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />	# 机器人状态发布节点
+<node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" />	# 控制关节运动的节点
+```
+
+### gazebo
+
+```shell
+# 命令行
+roslaunch urdf_tutorial display.launch model:='$(find learning_gazebo)/urdf/robot.urdf'	# 发布tf变换 + 运行rviz
+killall gzserver & killall gzclient	# pid died时杀死gazebo进程
+
+# launch文件
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+	<arg name="world_name" value="$(find package_name)/worlds/<file_name>.world" />
+</include>
+<node pkg="gazebo_ros" type="spawn_model" name="model" args="-urdf -model car -param robot_description"  />	# gazebo中显示机器人模型
+```
+
+### antibox
+
+```shell
+# 差分驱动两轮小车
+<node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+	<rosparam file="$(find roamer_simulation)/config/arbotix.yaml" command="load" />
+	<param name="sim" value="true" />
+</node>
 ```
 
