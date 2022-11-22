@@ -1,0 +1,27 @@
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro $(find learning_gazebo)/urdf/car.xacro" />
+
+    <!--  启动 rviz，args需要对应修改-->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find learning_gazebo)/rviz/rviz.rviz" />
+
+    <!-- 添加关节状态发布节点  gui控制时抖动，去除这一行-->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
+    <!-- 添加机器人状态发布节点 -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+    <!-- 可选:用于控制关节运动的节点 -->
+    <!--    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" />-->
+
+    <!-- 启动 gazebo -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <!--        <arg name="world_name" value="$(find learning_gazebo)/worlds/hello.world" />-->
+    </include>
+
+    <!-- 在 gazebo 中显示机器人模型 -->
+    <node pkg="gazebo_ros" type="spawn_model" name="model" args="-urdf -model car -param robot_description"  />
+
+    <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+        <rosparam file="$(find learning_gazebo)/config/arbotix.yaml" command="load" />
+        <param name="sim" value="true" />
+    </node>
+    
+</launch>

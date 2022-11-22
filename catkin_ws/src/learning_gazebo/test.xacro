@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<robot name="chassis" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="base_footprint_radius" value="0.001" />
+    <xacro:property name="base_link_length" value="0.5" />
+    <xacro:property name="base_link_width" value="0.4" />
+    <xacro:property name="base_link_height" value="0.08" />
+    <xacro:property name="base_link_m" value="0.015" />
+    <xacro:property name="earth_space" value="0.5" />
+
+    <link name="base_footprint">
+        <visual>
+            <geometry>
+                <sphere radius="${base_footprint_radius}" />
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="${base_link_length} ${base_link_width} ${base_link_height}" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="grey" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${base_link_length} ${base_link_width} ${base_link_height}" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </collision>
+        <xacro:box_inertial_matrix m="${base_link_m}" l="${base_link_length}" w="${base_link_width}" h="${base_link_height}" />
+    </link>
+
+    <joint name="base_link2base_footprint" type="fixed">
+        <parent link="base_footprint" />
+        <child link="base_link" />
+        <origin xyz="0 0 ${earth_space + base_link_height / 2}" />
+    </joint>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+
+    <xacro:property name="wheel_radius" value="0.0325" />
+    <xacro:property name="wheel_length" value="0.015" />
+    <xacro:property name="wheel_m" value="0.05" />
+
+    <xacro:macro name="add_wheels" params="name reflect">
+        <link name="${name}_wheel">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="${PI / 2} 0 0" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="${PI / 2} 0 0" />
+            </collision>
+            <xacro:cylinder_inertial_matrix m="${wheel_m}" r="${wheel_radius}" h="${wheel_length}" />
+        </link>
+
+        <joint name="${name}_wheel2base_link" type="continuous">
+            <parent link="base_link" />
+            <child link="${name}_wheel" />
+            <origin xyz="0 ${reflect * base_link_width / 2} ${-(earth_space + base_link_height / 2 - wheel_radius)}" />
+            <axis xyz="0 1 0" />
+        </joint>
+
+        <gazebo reference="${name}_wheel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:add_wheels name="left" reflect="1" />
+    <xacro:add_wheels name="right" reflect="-1" />
+
+
+    <xacro:property name="support_wheel_radius" value="0.0075" />
+    <xacro:property name="support_wheel_m" value="0.03" />
+
+    <xacro:macro name="add_support_wheels" params="name reflect" >
+        <link name="${name}_wheel">
+            <visual>
+                <geometry>
+                    <sphere radius="${support_wheel_radius}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${support_wheel_radius}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </collision>
+            <xacro:sphere_inertial_matrix m="${support_wheel_m}" r="${support_wheel_radius}" />
+        </link>
+
+        <joint name="${name}_wheel2base_link" type="continuous">
+            <parent link="base_link" />
+            <child link="${name}_wheel" />
+            <origin xyz="${reflect * (base_link_length / 2 - support_wheel_radius)} 0 ${-(base_link_height / 2 + earth_space / 2)}" />
+            <axis xyz="1 1 1" />
+        </joint>
+
+        <gazebo reference="${name}_wheel">
+            <material>Gazebo/Red</material>
+        </gazebo>
+    </xacro:macro>
+
+<!--    <xacro:add_support_wheels name="front" reflect="1" />-->
+<!--    <xacro:add_support_wheels name="back" reflect="-1" />-->
+</robot>
